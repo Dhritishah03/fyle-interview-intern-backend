@@ -1,12 +1,12 @@
 # Building and Running the Application with Docker
-# Overview
+## Overview
 This guide provides the steps to quickly build and run the application using Docker. It includes setting up the environment, building the Docker image, and running the application with Docker Compose.
 
-# Prerequisites
+## Prerequisites
 - Docker and Docker Compose installed on your system.
 - Application files (including Dockerfile, docker-compose.yml, and requirements.txt).
     
-# Steps to Run the Application
+## Steps to Run the Application
 1. Clone the repository containing the Docker files
 
 2. Build the Docker Image
@@ -30,5 +30,5 @@ Optional: Running Database Migrations
 To run database migrations, execute the following inside the container:\
 ```docker-compose exec fyle-backend flask db upgrade -d core/migrations/```
 
-# Conclusion
+## Conclusion
 By following these steps, the application will run in a Docker container.
