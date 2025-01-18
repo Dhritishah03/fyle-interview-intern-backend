@@ -1,4 +1,4 @@
-# Quick Guide: Running the Application with Docker
+# Building and Running the Application with Docker
 # Overview
 This guide provides the steps to quickly build and run the application using Docker. It includes setting up the environment, building the Docker image, and running the application with Docker Compose.
 
