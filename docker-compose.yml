@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: . # Points to the directory with the Dockerfile
+      dockerfile: Dockerfile # Explicitly specifies the Dockerfile
+    ports:
+      - "7755:7755" # Maps the host port to the container port
+    volumes:
+      - .:/app # Mounts the current directory into the container (optional for development)
+    environment:
+      FLASK_ENV: development # Optional environment variable for Flask
+      PYTHONUNBUFFERED: 1    # Ensures logs appear immediately in development
+    command: bash run.sh # Specifies the entry point to start your app

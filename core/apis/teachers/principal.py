@@ -1,8 +1,6 @@
 from flask import Blueprint
-from core import db
 from core.apis import decorators
 from core.apis.responses import APIResponse
-from core.models.principals import Principal
 from core.models.teachers import Teacher
 
 from .schema import TeacherSchema

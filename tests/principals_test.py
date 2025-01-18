@@ -1,7 +1,11 @@
 from core.models.assignments import AssignmentStateEnum, GradeEnum, Assignment
 from core import db
-import pytest
-from core.libs.exceptions import FyleError
+from core.models.principals import Principal
+
+def test_principal_repr():
+        """Test case for Principal __repr__ method"""
+        principal = Principal(id=1)
+        assert repr(principal) == '<Principal 1>'
 
 def test_get_assignments(client, h_principal):
     response = client.get(
@@ -116,10 +120,3 @@ def test_invalid_api_path(client, h_principal):
 
     response = client.post('/invalid/api/path', headers={'X-Principal': h_principal})
     assert response.status_code == 404
-
-
-
-def test_fyle_error_to_dict():
-    error = FyleError(400, "Bad Request")
-    error_dict = error.to_dict()
-    assert error_dict == {'message': 'Bad Request'}

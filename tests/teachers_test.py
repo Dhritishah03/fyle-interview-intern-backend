@@ -1,5 +1,11 @@
 from core.models.assignments import Assignment, AssignmentStateEnum
 from core import db
+from core.models.teachers import Teacher
+
+def test_teacher_repr():
+        """Test case for Teacher __repr__ method"""
+        teacher = Teacher(id=1)
+        assert repr(teacher) == '<Teacher 1>'
 
 def test_get_assignments_teacher_1(client, h_teacher_1):
     response = client.get(
@@ -104,3 +110,26 @@ def test_grade_assignment_draft_assignment(client, h_teacher_1):
 
     assert data['error'] == 'FyleError'
 
+
+
+def test_grade_assignment_success(client, h_teacher_1):
+    """
+    success case: teacher 1 grading their own assignment
+    """
+    response = client.post(
+        '/teacher/assignments/grade',
+        headers=h_teacher_1,
+        json={
+            "id": 5,
+            "grade": "A"
+        }
+    )
+
+    assert response.status_code == 200
+    data = response.json
+
+    assert response.json['data']['state'] == AssignmentStateEnum.GRADED.value
+    assert response.json['data']['grade'] == "A"
+
+
+    
