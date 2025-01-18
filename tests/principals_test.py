@@ -1,5 +1,7 @@
-from core.models.assignments import AssignmentStateEnum, GradeEnum
-
+from core.models.assignments import AssignmentStateEnum, GradeEnum, Assignment
+from core import db
+import pytest
+from core.libs.exceptions import FyleError
 
 def test_get_assignments(client, h_principal):
     response = client.get(
@@ -16,8 +18,9 @@ def test_get_assignments(client, h_principal):
 
 def test_grade_assignment_draft_assignment(client, h_principal):
     """
-    failure case: If an assignment is in Draft state, it cannot be graded by principal
+    Failure case: If an assignment is in Draft state, it cannot be graded by principal
     """
+
     response = client.post(
         '/principal/assignments/grade',
         json={
@@ -28,6 +31,7 @@ def test_grade_assignment_draft_assignment(client, h_principal):
     )
 
     assert response.status_code == 400
+    assert response.json.get('message') == 'Assignment must be in Submitted or Graded state'
 
 
 def test_grade_assignment(client, h_principal):
@@ -60,3 +64,62 @@ def test_regrade_assignment(client, h_principal):
 
     assert response.json['data']['state'] == AssignmentStateEnum.GRADED.value
     assert response.json['data']['grade'] == GradeEnum.B
+
+
+def test_principal_view_all_teachers(client, h_principal):
+    response = client.get(
+        '/principal/teachers',
+        headers=h_principal
+    )
+    assert response.status_code == 200
+    data = response.json['data']
+    assert len(data) == 2
+    
+
+
+
+def test_grade_assignment_invalid_id(client, h_principal):
+    """
+    Failure case: Grading an assignment with an invalid ID
+    """
+    response = client.post(
+        '/principal/assignments/grade',
+        json={
+            'id': 999,
+            'grade': GradeEnum.A.value
+        },
+        headers=h_principal
+    )
+
+    assert response.status_code == 404
+
+
+def test_grade_assignment_invalid_grade(client, h_principal):
+    """
+    Failure case: Grading an assignment with an invalid grade
+    """
+    response = client.post(
+        '/principal/assignments/grade',
+        json={
+            'id': 4,
+            'grade': 'InvalidGrade'
+        },
+        headers=h_principal
+    )
+
+    assert response.status_code == 400
+    assert response.json['message']['grade'] == ['Invalid enum member InvalidGrade']  
+
+
+def test_invalid_api_path(client, h_principal):
+    """Test case when there is no matching API path"""
+
+    response = client.post('/invalid/api/path', headers={'X-Principal': h_principal})
+    assert response.status_code == 404
+
+
+
+def test_fyle_error_to_dict():
+    error = FyleError(400, "Bad Request")
+    error_dict = error.to_dict()
+    assert error_dict == {'message': 'Bad Request'}

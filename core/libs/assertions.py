@@ -15,7 +15,7 @@ def assert_true(cond, msg='FORBIDDEN'):
         base_assert(403, msg)
 
 
-def assert_valid(cond, msg='BAD_REQUEST'):
+def assert_valid(cond, msg='FyleError'):
     if cond is False:
         base_assert(400, msg)
 
