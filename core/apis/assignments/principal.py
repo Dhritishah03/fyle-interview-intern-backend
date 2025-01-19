@@ -2,10 +2,9 @@ from flask import Blueprint
 from core import db
 from core.apis import decorators
 from core.apis.responses import APIResponse
-from core.models.principals import Principal
 from core.models.assignments import Assignment, AssignmentStateEnum
+from .schema import AssignmentSchema, AssignmentGradeSchema
 
-from .schema import AssignmentSchema, AssignmentSubmitSchema, AssignmentGradeSchema
 principal_assignments_resources = Blueprint('principal_assignments_resources', __name__)
 
 

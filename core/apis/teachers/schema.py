@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from core.models.teachers import Teacher
-from marshmallow import Schema, EXCLUDE, fields
+from marshmallow import EXCLUDE, fields
 
 class TeacherSchema(SQLAlchemyAutoSchema):
     class Meta:

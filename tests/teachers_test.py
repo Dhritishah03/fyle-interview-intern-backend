@@ -7,7 +7,9 @@ def test_teacher_repr():
         teacher = Teacher(id=1)
         assert repr(teacher) == '<Teacher 1>'
 
+
 def test_get_assignments_teacher_1(client, h_teacher_1):
+    """Test case for getting assignments for teacher 1"""
     response = client.get(
         '/teacher/assignments',
         headers=h_teacher_1
@@ -21,6 +23,7 @@ def test_get_assignments_teacher_1(client, h_teacher_1):
 
 
 def test_get_assignments_teacher_2(client, h_teacher_2):
+    """Test case for getting assignments for teacher 2"""
     response = client.get(
         '/teacher/assignments',
         headers=h_teacher_2

@@ -27,6 +27,7 @@ def test_get_assignments_student_1(client, h_student_1):
 
 
 def test_get_assignments_student_2(client, h_student_2):
+    """Test case for getting assignments for student 2"""
     response = client.get(
         '/student/assignments',
         headers=h_student_2
@@ -71,7 +72,9 @@ def test_post_assignment_student_1(client, h_student_1):
     assert data['state'] == AssignmentStateEnum.DRAFT
     assert data['teacher_id'] is None
 
+
 def test_post_assignment_student(client, h_student_1):
+    """ Test case for posting an assignment by student """
     content = 'ABCD TESTPOST'
 
     response = client.post(
@@ -91,6 +94,7 @@ def test_post_assignment_student(client, h_student_1):
 
 
 def test_submit_assignment_student_1(client, h_student_1):
+    """ Test case for submitting an assignment by student """
     response = client.post(
         '/student/assignments/submit',
         headers=h_student_1,
@@ -108,6 +112,7 @@ def test_submit_assignment_student_1(client, h_student_1):
 
 
 def test_assignment_resubmit_error(client, h_student_1):
+    """ failure case: for resubmitting an assignment by student """
     response = client.post(
         '/student/assignments/submit',
         headers=h_student_1,

@@ -39,6 +39,7 @@ def test_grade_assignment_draft_assignment(client, h_principal):
 
 
 def test_grade_assignment(client, h_principal):
+    """Test case for grading an assignment"""
     response = client.post(
         '/principal/assignments/grade',
         json={
@@ -55,6 +56,7 @@ def test_grade_assignment(client, h_principal):
 
 
 def test_regrade_assignment(client, h_principal):
+    """Test case for regrading an assignment"""
     response = client.post(
         '/principal/assignments/grade',
         json={
@@ -71,6 +73,7 @@ def test_regrade_assignment(client, h_principal):
 
 
 def test_principal_view_all_teachers(client, h_principal):
+    """ Test case for viewing all teachers """
     response = client.get(
         '/principal/teachers',
         headers=h_principal
